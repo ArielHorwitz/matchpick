@@ -5,11 +5,13 @@ pub fn process(
     match_against: Option<String>,
     enter_pattern: &str,
     exit_pattern: &str,
+    ignore_pattern: Option<String>,
 ) -> Result<String> {
     let mut matcher = MultilineMatch::new(
         match_against,
         enter_pattern.to_owned(),
         exit_pattern.to_owned(),
+        ignore_pattern,
     );
     let mut outputs: Vec<String> = Vec::new();
     for (i, line) in utf8_data.lines().enumerate() {
@@ -27,16 +29,23 @@ pub fn process(
 struct MultilineMatch {
     enter_pattern: String,
     exit_pattern: String,
+    ignore_pattern: Option<String>,
     match_against: Option<String>,
     default_case_buffer: Vec<String>,
     state: State,
 }
 
 impl MultilineMatch {
-    fn new(match_against: Option<String>, enter_pattern: String, exit_pattern: String) -> Self {
+    fn new(
+        match_against: Option<String>,
+        enter_pattern: String,
+        exit_pattern: String,
+        ignore_pattern: Option<String>,
+    ) -> Self {
         Self {
             enter_pattern,
             exit_pattern,
+            ignore_pattern,
             match_against,
             default_case_buffer: Vec::new(),
             state: State::Normal,
@@ -63,6 +72,11 @@ impl MultilineMatch {
     }
 
     fn check_new_state(&self, line: &str) -> Option<NewState> {
+        if let Some(ignore_pattern) = &self.ignore_pattern {
+            if line.contains(ignore_pattern) {
+                return None;
+            }
+        }
         if let Some((_pat, names)) = line.split_once(&self.enter_pattern) {
             let names = names.trim();
             if names.is_empty() {

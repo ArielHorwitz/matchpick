@@ -24,6 +24,9 @@ struct Args {
     /// Pattern to end matching
     #[arg(short = 'e', long, default_value_t = String::from(END_PATTERN))]
     end_pattern: String,
+    /// Pattern to ignore other patterns
+    #[arg(long)]
+    ignore_pattern: Option<String>,
     /// Output to file (otherwise to stdout)
     #[arg(short, long)]
     output: Option<PathBuf>,
@@ -61,6 +64,7 @@ fn main() -> Result<()> {
         args.match_against,
         &args.start_pattern,
         &args.end_pattern,
+        args.ignore_pattern,
     )?;
     if let Some(output_file) = args.output {
         std::fs::write(&output_file, &output_data).context("write to file")?;
