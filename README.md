@@ -7,14 +7,15 @@ Arguments:
   [FILE]  Read from file (otherwise from stdin)
 
 Options:
-  -m, --match <MATCH_AGAINST>          Match against
-  -s, --start-pattern <START_PATTERN>  Pattern to start matching and switch cases [default: ~>>>]
-  -e, --end-pattern <END_PATTERN>      Pattern to end matching [default: ~<<<]
-  -o, --output <OUTPUT>                Output to file (otherwise to stdout)
-      --print-start                    Print default starting pattern
-      --print-end                      Print default ending pattern
-  -h, --help                           Print help
-  -V, --version                        Print version
+  -m, --match <MATCH_AGAINST>            Match against (switch case)
+  -s, --start-pattern <START_PATTERN>    Pattern to start matching and switch cases [default: ~>>>]
+  -e, --end-pattern <END_PATTERN>        Pattern to end matching [default: ~<<<]
+      --ignore-pattern <IGNORE_PATTERN>  Pattern to ignore other patterns
+  -o, --output <OUTPUT>                  Output to file (otherwise to stdout)
+      --print-start                      Print default starting pattern
+      --print-end                        Print default ending pattern
+  -h, --help                             Print help
+  -V, --version                          Print version
 ```
 
 As an example, the input:
