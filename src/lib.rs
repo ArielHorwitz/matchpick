@@ -53,14 +53,12 @@ impl MultilineMatch {
 
     fn handle_normal_line(&mut self, line: &str) -> Option<String> {
         match &self.state {
-            State::Normal => Some(line.to_owned()),
-            State::Matched => Some(line.to_owned()),
+            State::Normal | State::Matched => Some(line.to_owned()),
             State::Default => {
                 self.default_case_buffer.push(line.to_owned());
                 None
             }
-            State::Other => None,
-            State::Done => None,
+            State::Other | State::Done => None,
         }
     }
 
@@ -72,7 +70,7 @@ impl MultilineMatch {
             } else {
                 let names = names
                     .split_whitespace()
-                    .map(|name| name.to_owned())
+                    .map(std::borrow::ToOwned::to_owned)
                     .collect();
                 Some(NewState::Switch(names))
             }
@@ -83,6 +81,8 @@ impl MultilineMatch {
         }
     }
 
+    // Allow same arms for the sake of comments explaining each state change in the state machine
+    #[allow(clippy::match_same_arms)]
     fn handle_new_state(&mut self, new_state: NewState) -> Result<Option<String>> {
         let mut result_value = None;
         self.state = match (&self.state, new_state) {
