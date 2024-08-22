@@ -15,7 +15,7 @@ struct Args {
     /// Read from file (otherwise from stdin)
     #[arg()]
     file: Option<PathBuf>,
-    /// Match against
+    /// Match against (switch case)
     #[arg(short, long = "match")]
     match_against: Option<String>,
     /// Pattern to start matching and switch cases
