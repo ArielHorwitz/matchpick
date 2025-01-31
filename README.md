@@ -7,7 +7,7 @@ Arguments:
   [FILE]  Read from file (otherwise from stdin)
 
 Options:
-  -m, --match <MATCH_AGAINST>            Match against (switch case)
+  -m, --match <MATCH_AGAINST>            Match against (can be used multiple times)
   -s, --start-pattern <START_PATTERN>    Pattern to start matching and switch cases [default: ~>>>]
   -e, --end-pattern <END_PATTERN>        Pattern to end matching [default: ~<<<]
       --ignore-pattern <IGNORE_PATTERN>  Pattern to ignore other patterns
@@ -55,4 +55,15 @@ Produces with `--match something_else`:
 start
 default output
 end
+```
+
+You may specify multiple words to match with or against. This will result in the first full-word match will. For example:
+```
+~>>>
+This will match against "gamma"
+~>>> one alpha betagamma
+This will match against "one", "alpha", "one two", "two one", "two beta alpha", "betagamma"
+~>>> two beta
+This will match against "two", "beta", "two beta", "beta two"
+~<<<
 ```

@@ -15,9 +15,9 @@ struct Args {
     /// Read from file (otherwise from stdin)
     #[arg()]
     file: Option<PathBuf>,
-    /// Match against (switch case)
+    /// Match against (can be used multiple times)
     #[arg(short = 'm', long = "match")]
-    match_against: Option<String>,
+    match_against: Vec<String>,
     /// Pattern to start matching and switch cases
     #[arg(short = 's', long, default_value_t = String::from(START_PATTERN))]
     start_pattern: String,

@@ -13,7 +13,7 @@ fn check_output(resulted: &str, expected: &str) {
 fn case_default() {
     let output = process(
         INPUT,
-        None,
+        Vec::new(),
         ENTER_PAT,
         EXIT_PAT,
         Some(IGNORE_PAT.to_owned()),
@@ -24,14 +24,14 @@ fn case_default() {
 
 #[test]
 fn case_eggs() {
-    let match_against = Some("eggs".to_owned());
+    let match_against = vec!["eggs".to_owned()];
     let output = process(INPUT, match_against, ENTER_PAT, EXIT_PAT, None).unwrap();
     check_output(&output, "foo");
 }
 
 #[test]
 fn case_eggs_ignore() {
-    let match_against = Some("eggs".to_owned());
+    let match_against = vec!["eggs".to_owned()];
     let output = process(
         INPUT,
         match_against,
@@ -45,14 +45,14 @@ fn case_eggs_ignore() {
 
 #[test]
 fn case_spam() {
-    let match_against = Some("spam".to_owned());
+    let match_against = vec!["spam".to_owned()];
     let output = process(INPUT, match_against, ENTER_PAT, EXIT_PAT, None).unwrap();
     check_output(&output, "bar");
 }
 
 #[test]
 fn case_spam_ignored() {
-    let match_against = Some("spam".to_owned());
+    let match_against = vec!["spam".to_owned()];
     let output = process(
         INPUT,
         match_against,
@@ -66,7 +66,7 @@ fn case_spam_ignored() {
 
 #[test]
 fn case_baz() {
-    let match_against = Some("baz".to_owned());
+    let match_against = vec!["baz".to_owned()];
     let output = process(
         INPUT,
         match_against,
@@ -80,7 +80,7 @@ fn case_baz() {
 
 #[test]
 fn case_second() {
-    let match_against = Some("second".to_owned());
+    let match_against = vec!["second".to_owned()];
     let output = process(
         INPUT,
         match_against,
@@ -94,7 +94,7 @@ fn case_second() {
 
 #[test]
 fn case_other() {
-    let match_against = Some("something_else_that_will_not_trigger_any_case".to_owned());
+    let match_against = vec!["something_else_that_will_not_trigger_any_case".to_owned()];
     let output = process(
         INPUT,
         match_against,

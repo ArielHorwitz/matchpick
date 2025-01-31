@@ -2,7 +2,7 @@ use anyhow::{bail, Result};
 
 pub fn process(
     utf8_data: &str,
-    match_against: Option<String>,
+    match_against: Vec<String>,
     enter_pattern: &str,
     exit_pattern: &str,
     ignore_pattern: Option<String>,
@@ -30,14 +30,14 @@ struct MultilineMatch {
     enter_pattern: String,
     exit_pattern: String,
     ignore_pattern: Option<String>,
-    match_against: Option<String>,
+    match_against: Vec<String>,
     default_case_buffer: Vec<String>,
     state: State,
 }
 
 impl MultilineMatch {
     fn new(
-        match_against: Option<String>,
+        match_against: Vec<String>,
         enter_pattern: String,
         exit_pattern: String,
         ignore_pattern: Option<String>,
@@ -104,18 +104,16 @@ impl MultilineMatch {
             (State::Normal, NewState::Enter) => State::Default,
             // Entering new switch case (check if matched)
             (State::Default | State::Other, NewState::Switch(names)) => {
-                if let Some(match_against) = &self.match_against {
-                    if names.contains(match_against) {
-                        // Found case
-                        State::Matched
-                    } else {
-                        // Switch case
-                        State::Other
-                    }
-                } else {
+                if self.match_against.is_empty() {
                     // Wanted default
                     result_value = Some(self.default_case_buffer.join("\n"));
                     State::Done
+                } else if self.match_against.iter().any(|m| names.contains(m)) {
+                    // Found case
+                    State::Matched
+                } else {
+                    // Switch case
+                    State::Other
                 }
             }
             // Leaving matched case for another (no further action needed)
