@@ -1,0 +1,11 @@
+start
+~>>>
+default
+~>>> eggs
+foo
+~>>> spam ###
+bar
+~>>> baz second
+foobar
+~<<<
+end

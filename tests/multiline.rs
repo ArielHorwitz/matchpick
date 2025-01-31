@@ -3,34 +3,11 @@ use matchpick::process;
 const ENTER_PAT: &str = "~>>>";
 const EXIT_PAT: &str = "~<<<";
 const IGNORE_PAT: &str = "###";
-const INPUT: &str = "start
-~>>>
-default
-~>>> eggs
-foo
-~>>> spam ###
-bar
-~>>> baz second
-foobar
-~<<<
-end";
-const OUTPUT_DEFAULT: &str = "start
-default
-end";
-const OUTPUT_EGGS: &str = "start
-foo
-end";
-const OUTPUT_EGGS_SPAM: &str = "start
-foo
-~>>> spam ###
-bar
-end";
-const OUTPUT_SPAM: &str = "start
-bar
-end";
-const OUTPUT_BAZ_SECOND: &str = "start
-foobar
-end";
+const INPUT: &str = include_str!("example.txt");
+
+fn check_output(resulted: &str, expected: &str) {
+    assert_eq!(resulted, &format!("start\n{expected}\nend"))
+}
 
 #[test]
 fn case_default() {
@@ -42,14 +19,14 @@ fn case_default() {
         Some(IGNORE_PAT.to_owned()),
     )
     .unwrap();
-    assert_eq!(output, OUTPUT_DEFAULT);
+    check_output(&output, "default");
 }
 
 #[test]
 fn case_eggs() {
     let match_against = Some("eggs".to_owned());
     let output = process(INPUT, match_against, ENTER_PAT, EXIT_PAT, None).unwrap();
-    assert_eq!(output, OUTPUT_EGGS);
+    check_output(&output, "foo");
 }
 
 #[test]
@@ -63,14 +40,14 @@ fn case_eggs_ignore() {
         Some(IGNORE_PAT.to_owned()),
     )
     .unwrap();
-    assert_eq!(output, OUTPUT_EGGS_SPAM);
+    check_output(&output, "foo\n~>>> spam ###\nbar");
 }
 
 #[test]
 fn case_spam() {
     let match_against = Some("spam".to_owned());
     let output = process(INPUT, match_against, ENTER_PAT, EXIT_PAT, None).unwrap();
-    assert_eq!(output, OUTPUT_SPAM);
+    check_output(&output, "bar");
 }
 
 #[test]
@@ -84,7 +61,7 @@ fn case_spam_ignored() {
         Some(IGNORE_PAT.to_owned()),
     )
     .unwrap();
-    assert_eq!(output, OUTPUT_DEFAULT);
+    check_output(&output, "default");
 }
 
 #[test]
@@ -98,7 +75,7 @@ fn case_baz() {
         Some(IGNORE_PAT.to_owned()),
     )
     .unwrap();
-    assert_eq!(output, OUTPUT_BAZ_SECOND);
+    check_output(&output, "foobar");
 }
 
 #[test]
@@ -112,7 +89,7 @@ fn case_second() {
         Some(IGNORE_PAT.to_owned()),
     )
     .unwrap();
-    assert_eq!(output, OUTPUT_BAZ_SECOND);
+    check_output(&output, "foobar");
 }
 
 #[test]
@@ -126,5 +103,5 @@ fn case_other() {
         Some(IGNORE_PAT.to_owned()),
     )
     .unwrap();
-    assert_eq!(output, OUTPUT_DEFAULT);
+    check_output(&output, "default");
 }
