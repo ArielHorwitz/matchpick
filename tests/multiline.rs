@@ -30,6 +30,13 @@ fn case_eggs() {
 }
 
 #[test]
+fn case_eggs_second() {
+    let match_against = vec!["second".to_owned(), "eggs".to_owned()];
+    let output = process(INPUT, match_against, ENTER_PAT, EXIT_PAT, None).unwrap();
+    check_output(&output, "foo");
+}
+
+#[test]
 fn case_eggs_ignore() {
     let match_against = vec!["eggs".to_owned()];
     let output = process(
@@ -81,6 +88,20 @@ fn case_baz() {
 #[test]
 fn case_second() {
     let match_against = vec!["second".to_owned()];
+    let output = process(
+        INPUT,
+        match_against,
+        ENTER_PAT,
+        EXIT_PAT,
+        Some(IGNORE_PAT.to_owned()),
+    )
+    .unwrap();
+    check_output(&output, "foobar");
+}
+
+#[test]
+fn case_spam_second_ignore() {
+    let match_against = vec!["spam".to_owned(), "second".to_owned()];
     let output = process(
         INPUT,
         match_against,
