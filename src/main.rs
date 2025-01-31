@@ -16,7 +16,7 @@ struct Args {
     #[arg()]
     file: Option<PathBuf>,
     /// Match against (switch case)
-    #[arg(short, long = "match")]
+    #[arg(short = 'm', long = "match")]
     match_against: Option<String>,
     /// Pattern to start matching and switch cases
     #[arg(short = 's', long, default_value_t = String::from(START_PATTERN))]
@@ -28,7 +28,7 @@ struct Args {
     #[arg(long)]
     ignore_pattern: Option<String>,
     /// Output to file (otherwise to stdout)
-    #[arg(short, long)]
+    #[arg(short = 'o', long)]
     output: Option<PathBuf>,
     /// Print default starting pattern
     #[arg(long)]
