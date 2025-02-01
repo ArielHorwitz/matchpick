@@ -57,7 +57,7 @@ default output
 end
 ```
 
-You may specify multiple words to match with or against. This will result in the first full-word match will. For example:
+You may specify multiple words to match with or against. This will result in the first full-word match. For example:
 ```
 ~>>>
 This will match against "gamma"
