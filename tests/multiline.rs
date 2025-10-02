@@ -6,7 +6,7 @@ const IGNORE_PAT: &str = "###";
 const INPUT: &str = include_str!("example.txt");
 
 fn check_output(resulted: &str, expected: &str) {
-    assert_eq!(resulted, &format!("start\n{expected}\nend"))
+    assert_eq!(resulted, &format!("start\n{expected}\nend"));
 }
 
 #[test]

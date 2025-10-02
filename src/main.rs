@@ -44,11 +44,11 @@ fn main() -> Result<()> {
     if args.print_start {
         println!("{START_PATTERN}");
         return Ok(());
-    };
+    }
     if args.print_end {
         println!("{END_PATTERN}");
         return Ok(());
-    };
+    }
     // get data
     let input_data = if let Some(file) = &args.file {
         std::fs::read(file).context("read input file")?

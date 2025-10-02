@@ -20,7 +20,7 @@ pub fn process(
             .map_err(|e| anyhow::anyhow!("parse failed at line {}: {e}", i + 1))?
         {
             outputs.push(line);
-        };
+        }
     }
     Ok(outputs.join("\n"))
 }
